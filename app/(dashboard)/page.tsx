@@ -1,25 +1,42 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { UserButton } from "@clerk/nextjs";
+import { useOrganization, UserButton } from "@clerk/nextjs";
+import EmptyOrg from "./_components/empty-org";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { BoardList } from "./_components/board-list";
+
+interface DashboardPageProps {
+  searchParams: {
+    search?: string;
+    favorites?: string;
+  };
+};
 
 const DashboardPage = () => {
+  const { organization } = useOrganization();
+  const searchParams = useSearchParams();
+  const [params, setParams] = useState({ search: "", favorites: "" });
+
+  useEffect(() => {
+    setParams({
+      search: searchParams.get("search") || "",
+      favorites: searchParams.get("favorites") || "",
+    });
+  }, [searchParams]);
+
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="flex-1 h-[calc(100%-80px)] p-6">
+      {/* {JSON.stringify(params)} */}
+      {!organization ? (<EmptyOrg />) : (
+        <BoardList
+          orgId = {organization.id}
+          query = {params}
+        />
+      )}
     </div>
   );
 }
 
 export default DashboardPage;
-
-// export default function Home() {
-//   return (
-//     <div className="flex flex-col gap-y-4">
-//       <div>
-//       This is a page for authenticated users.
-//       </div>
-//       <div>
-//         <UserButton />
-//       </div>
-//     </div>
-//   );
-// }
