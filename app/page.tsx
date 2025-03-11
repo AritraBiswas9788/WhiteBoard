@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
-    <Button size="sm">
-      Click Me
-    </Button>
+    <div className="flex flex-col gap-y-4">
+      <div>
+      This is a page for authenticated users.
+      </div>
+      <div>
+        <UserButton />
+      </div>
+    </div>
   );
 }
