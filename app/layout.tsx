@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
-
+import { LiveblocksProvider } from "@liveblocks/react"
 import { Toaster } from "@/components/ui/sonner";
 import ModalProvider from "@/providers/modal-provider";
 
@@ -33,8 +33,8 @@ export default function RootLayout({
       >
         <ConvexClientProvider>
           <Toaster />
-          <ModalProvider/>
-        {children}
+          <ModalProvider />
+          {children}
         </ConvexClientProvider>
       </body>
     </html>

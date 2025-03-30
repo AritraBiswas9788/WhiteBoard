@@ -1,8 +1,9 @@
-import { convexToJson, v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
+
 
 const images = [
-    "/placeholders/1.svg",
+    "/  /1.svg",
     "/placeholders/2.svg",
     "/placeholders/3.svg",
     "/placeholders/4.svg",
@@ -160,4 +161,12 @@ export const unfavorite = mutation({
         await ctx.db.delete(existingFavs._id);
         return board;
     }
-})
+});
+
+export const get = query({
+    args:{id: v.id("boards")},
+    handler: async (ctx,args)=> {
+        const board = ctx.db.get(args.id);
+        return board;
+    }
+});

@@ -6,6 +6,7 @@ import EmptyOrg from "./_components/empty-org";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { BoardList } from "./_components/board-list";
+import { LiveblocksProvider } from "@liveblocks/react";
 
 interface DashboardPageProps {
   searchParams: {
@@ -25,17 +26,21 @@ const DashboardPage = () => {
       favorites: searchParams.get("favorites") || "",
     });
   }, [searchParams]);
-
+  const publicApiKey = process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!;
   return (
-    <div className="flex-1 h-[calc(100%-80px)] p-6">
-      {/* {JSON.stringify(params)} */}
-      {!organization ? (<EmptyOrg />) : (
-        <BoardList
-          orgId = {organization.id}
-          query = {params}
-        />
-      )}
-    </div>
+    <LiveblocksProvider publicApiKey={publicApiKey}>
+
+      <div className="flex-1 h-[calc(100%-80px)] p-6">
+        {/* {JSON.stringify(params)} */}
+        {!organization ? (<EmptyOrg />) : (
+          <BoardList
+            orgId={organization.id}
+            query={params}
+          />
+        )}
+      </div>
+    </LiveblocksProvider>
+
   );
 }
 
